@@ -1,0 +1,273 @@
+html {
+  background-color: hsl(0, 0%, 94%);
+}
+
+body {
+  font-size: 14px;
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.button {
+  border-radius: 10px;
+  border: 1px solid black;
+  box-shadow: 1px 1px 6px 0px gray;
+  padding: 8px;
+}
+
+/**************/
+/*            */
+/*   header   */
+/*            */
+/**************/
+
+.header {
+  align-items: center;
+  background-color: hsl(95, 63%, 62%);
+  box-shadow: 0 0 6px hsl(0, 0%, 82%);
+  display: flex;
+  font-size: 24px;
+  font-weight: bold;
+  height: 60px;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+}
+
+.header-icon {
+  height: 35px;
+  width: 35px;
+  background-image: url('../images/iconmonstr-pin-1-240.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.user-menu {
+  position: absolute;
+  font-size: 15px;
+  top: 23px;
+  right: 30px;
+}
+
+.user-menu-dropdown {
+  background-color: hsl(360, 100%, 100%);
+  display: none;
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.user-menu-dropdown__item {
+  border-bottom: 1px dotted hsl(0, 0%, 92%);
+  color: hsl(0, 0%, 40%);
+  display: block;
+  line-height: 50px;
+  padding: 0 20px;
+  text-decoration: none;
+}
+
+.user-menu-dropdown__item:hover {
+  color: hsl(200, 100%, 50%);
+}
+
+/*********************/
+/*                   */
+/*   thought-input   */
+/*                   */
+/*********************/
+
+.thought-input {
+  align-items: center;
+  border-radius: 5px;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 600px;
+}
+
+.text-input {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: white;
+  height: 50px;
+  padding: 5px;
+  margin: 10px;
+  width: 500px;
+}
+
+.image-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-selection__image {
+  background-color: blue;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  height: 500px;
+  margin-bottom: 10px;
+  position: relative;
+  width: 500px;
+}
+
+.image-selection__text-overlay {
+  bottom: 20px;
+  color: white;
+  font-size: 20px;
+  height: 100px;
+  left: 25px;
+  position: absolute;
+  width: 450px;
+}
+
+.image-selection__buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.image-selection__button {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: hsl(286, 61%, 59%);
+  margin-bottom: 10px;
+  width: 150px;
+}
+
+.record-button {
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  background-color: hsl(200, 74%, 62%);
+  margin-bottom: 10px;
+  width: 200px;
+}
+
+/***************/
+/*             */
+/*   thoughts   */
+/*             */
+/***************/
+
+.thought {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 6px 0px gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 600px;
+  width: 600px;
+  margin-bottom: 10px;
+}
+
+.thought__date {
+  margin: 20px;
+}
+
+.thought__image {
+  background-image: url('https://lh5.ggpht.com/8Cog_N-0uEK0oWbePxekK2-bPuc2nNAz99kQniCQF2_sx_QPOSXVbZgykleDy2pCOjM=w300');
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 500px;
+  width: 500px;
+}
+
+.thought__text {
+  color: white;
+  font-size: 30px;
+  margin: 35px 20px;;
+  text-align: center;
+}
+
+/*************/
+/*           */
+/*   Login   */
+/*           */
+/*************/
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-image {
+  background-image: url('../images/iconmonstr-pin-1-240.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 200px;
+  margin: 50px;
+  width: 200px;
+}
+
+.login__new-user {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.login__new-user--button {
+  background-color: hsl(95, 63%, 62%);
+  height: 50px;
+  margin-bottom: 10px;
+  width: 250px;
+}
+
+.login__input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.login__returning-user {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.returning-user--button {
+  background-color: hsl(95, 63%, 62%);
+  height: 50px;
+  margin-bottom: 10px;
+  width: 250px;
+}
+
+.login__input--text {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.login__input {
+  background-color: white;
+  border-radius: 7px;
+  border: 1px solid black;
+  height: 30px;
+  font-size: 15px;
+  padding: 5px;
+  width: 340px;
+}
+
+.login__submit-container {
+  align-self: center;
+}
+
+.submit-changes-button {
+  background-color: hsl(200, 74%, 62%);
+}
