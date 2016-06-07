@@ -59,11 +59,7 @@ var ThoughtInputComponent = Spa.defineComponent(`
         <div class="image-selection__image">
       <div class="image-selection__text-overlay">{{textAreaVal}}</div>
         </div>
-      <div class="image-selection-buttons">
-        <button class="button image-selection__button new-image-button">New Image</button>
-        <button class="button image-selection__button no-image-button">No Image</button>
-      </div>
-      <button class="button record-button">Record Thought and Image</button>
+      <button class="button record-button">Record Thought</button>
     </div>
   </div>`,
   function ($thoughtInput, rerender, obj) {
@@ -95,6 +91,22 @@ var ThoughtInputComponent = Spa.defineComponent(`
         });
       }
     });
+
+    $thoughtInput.find('.record-button').on('click', function () {
+      $.ajax({
+        method: 'POST',
+        url: '/thoughts',
+        data: JSON.stringify( { content: $textInput.val()} ),
+        contentType: 'application/json',
+        success: function () {
+          window.rerenderThoughtsListComponent();
+          rerender( {
+            storedText: '',
+            textAreaVal: ''
+          } )
+        }
+      });
+    });
   }
 );
 
@@ -114,6 +126,8 @@ var ThoughtsListComponent = Spa.defineComponent(`
     {{/if}}
   </div>`,
   function ($el, rerender, obj) {
+    window.rerenderThoughtsListComponent = rerender;
+
     if (!obj.dataLoaded) {
       $.ajax({
         method: 'GET',

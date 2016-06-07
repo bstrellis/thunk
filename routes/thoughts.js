@@ -20,11 +20,10 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   var thoughtDoc = new models.Thoughts({
     content: req.body.content,
-    imageUrl: req.body.imageUrl
   });
 
-  models.Users.findOne({ username: req.username }, function (error, userDoc) {
-    thoughtDoc.userId = userDoc._id;
+  models.Sessions.findOne({ cookieIDStr: req.cookies.cookieIDStr }, function (error, currentSessionDoc) {
+    thoughtDoc.userId = currentSessionDoc.userId;
     thoughtDoc.save(function (err) {
       res.json({ thought: thoughtDoc });
     });

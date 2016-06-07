@@ -14,7 +14,6 @@ var SessionSchema = new mongoose.Schema({
 
 var ThoughtSchema = new mongoose.Schema({
   content: String,
-  imageUrl: String,
   createdAt: {
     type: Date,
     default: Date.now
