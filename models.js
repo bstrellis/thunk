@@ -4,7 +4,9 @@ var UserSchema = new mongoose.Schema({
   username: String,
   password: String,
   email: String,
-  phoneNumber: Number
+  phoneNumber: Number,
+  reminderTime: Number,
+  reminderInterval: Number
 });
 
 var SessionSchema = new mongoose.Schema({
@@ -21,17 +23,10 @@ var ThoughtSchema = new mongoose.Schema({
   userId: mongoose.Schema.ObjectId
 });
 
-var ImageSchema = new mongoose.Schema({
-  index: Number,
-  url: String
-});
-
 var Thoughts = mongoose.model('Thought', ThoughtSchema);
 var Users = mongoose.model('User', UserSchema);
 var Sessions = mongoose.model('Session', SessionSchema);
-var Images = mongoose.model('Image', ImageSchema);
 
 exports.Thoughts = Thoughts;
 exports.Users = Users;
 exports.Sessions = Sessions;
-exports.Images = Images;

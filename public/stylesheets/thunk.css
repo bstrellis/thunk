@@ -99,7 +99,7 @@ a {
   border: 1px solid lightgray;
   border-radius: 5px;
   background-color: white;
-  height: 50px;
+  height: 130px;
   padding: 5px;
   margin: 10px;
   width: 500px;
@@ -124,10 +124,10 @@ a {
 }
 
 .image-selection__text-overlay {
-  bottom: 20px;
+  top: 10px;
   color: white;
-  font-size: 20px;
-  height: 100px;
+  font-size: 25px;
+  height: 500px;
   left: 25px;
   position: absolute;
   width: 450px;
@@ -177,8 +177,8 @@ a {
 }
 
 .thought__image {
-  background-image: url('https://lh5.ggpht.com/8Cog_N-0uEK0oWbePxekK2-bPuc2nNAz99kQniCQF2_sx_QPOSXVbZgykleDy2pCOjM=w300');
-  background-size: cover;
+  background-color: hsla(205, 67%, 56%, 0.56);
+  border-radius: 10px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -188,7 +188,7 @@ a {
 
 .thought__text {
   color: white;
-  font-size: 30px;
+  font-size: 25px;
   margin: 35px 20px;;
   text-align: center;
 }

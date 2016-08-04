@@ -116,7 +116,7 @@ var ThoughtsListComponent = Spa.defineComponent(`
       {{#each thoughts as |thought|}}
         <div class="thought">
           <div class="thought__date">{{formatDate thought.createdAt}}</div>
-          <div class="thought__image" style="background-image:url('{{thought.imageUrl}}')">
+          <div class="thought__image">
             <div class="thought__text">{{thought.content}}</div>
           </div>
         </div>
@@ -152,24 +152,62 @@ var SettingsComponent = Spa.defineComponent(`
 
 var SettingsFormComponent = Spa.defineComponent(`
   <div class="settings-form">
-    <div class="settings-form__question>What would you like to change?</div>
-    <div class="settings-form__choice-container">
-      <div class="settings-form__choice--text">email:</div>
-      <textarea class="settings-form__choice--textinput" placeholder="Enter new email"></textarea>
-    </div>
-    <div class="settings-form__choice-container">
-      <div class="settings-form__choice--text">password:</div>
-      <textarea class="settings-form__choice--textinput" placeholder="Enter new password"></textarea>
-    </div>
-    <div class="settings-form__choice-container">
-      <div class="settings-form__choice--text">phone number:</div>
-      <textarea class="settings-form__choice--textinput" placeholder="Enter new phone number"></textarea>
-    </div>
-    <div class="settings-form__submit-container submit-container">
-      <button class="button submit-changes-button">Submit</button>
-    </div>
-  </div>
-`);
+    {{#if dataLoaded}}
+      <div class="settings-form__question>What would you like to change?</div>
+      <div class="settings-form__choice-container">
+        <div class="settings-form__choice--text">email: {{currentEmail}}</div>
+        <textarea class="settings-form__choice--textinput change-email" placeholder="Enter new email"></textarea>
+      </div>
+      <div class="settings-form__choice-container">
+        <div class="settings-form__choice--text">password: {{currentPassword}}</div>
+        <textarea class="settings-form__choice--textinput change-password" placeholder="Enter new password"></textarea>
+      </div>
+      <div class="settings-form__choice-container">
+        <div class="settings-form__choice--text">phone number: {{currentPhoneNumber}}</div>
+        <textarea class="settings-form__choice--textinput change-phone-number" placeholder="Enter new phone number"></textarea>
+      </div>
+      <div class="settings-form__submit-container submit-container">
+        <button class="button submit-changes-button">Submit</button>
+      </div>
+    {{/if}}
+  </div>`,
+  function ($settingsForm, rerender, obj) {
+    if (!obj.dataLoaded) {
+      $.ajax({
+        method: 'GET',
+        url: '/users',
+        success: function (response) {
+          rerender({
+            dataLoaded: true,
+            currentEmail: response.user.email,
+            currentPassword: response.user.password,
+            currentPhoneNumber: response.user.phoneNumber
+          });
+        }
+      });
+    }
+
+    $settingsForm.find('.submit-changes-button').on('click', function () {
+      $.ajax({
+        method: 'PUT',
+        url: '/users',
+        data: JSON.stringify( {
+          email: $settingsForm.find('.change-email').val(),
+          password: $settingsForm.find('.change-password').val(),
+          phoneNumber: $settingsForm.find('.change-phone-number').val()
+        } ),
+        contentType: 'application/json',
+        success: function (response) {
+          rerender({
+            currentEmail: response.user.email,
+            currentPassword: response.user.password,
+            currentPhoneNumber: response.user.phoneNumber
+          });
+        }
+      });
+    });
+  }
+);
 
 var RemindersComponent = Spa.defineComponent(`
   <div class="reminders">
@@ -182,17 +220,101 @@ var RemindersFormComponent = Spa.defineComponent(`
   <div class="reminders-form">
     <div class="reminders-form__choice-container">
       <div class="reminders-form__choice--text">How often would you like to receive a thought?</div>
-      <textarea class="reminders-form__choice--select-frequency" placeholder="Make a selection!"></textarea>
+      <div class="reminders-form__current-frequency">
+        {{#if remindersDataLoaded}}
+          {{currentFrequency}}
+        {{/if}}
+      </div>
+      <div class="reminders-form__frequency-dropdown">
+        <div class="reminders-form__frequency-dropdown--item">Daily</div>
+        <div class="reminders-form__frequency-dropdown--item">Every other day</div>
+        <div class="reminders-form__frequency-dropdown--item">Twice a week</div>
+        <div class="reminders-form__frequency-dropdown--item">Once a week</div>
+      </div>
     </div>
     <div class="reminders-form__choice-container">
       <div class="reminders-form__choice--text">At what time?</div>
-      <textarea class="reminders-form__choice--select-time" placeholder="Make a selection!"></textarea>
+      <div class="reminders-form__current-time">
+        {{#if remindersDataLoaded}}
+          {{currentTime}}
+        {{/if}}
+      </div>
+      <div class="reminders-form__time-dropdown">
+        <div class="reminders-form__time-dropdown--item">Time 1</div>
+        <div class="reminders-form__time-dropdown--item">Time 2</div>
+        <div class="reminders-form__time-dropdown--item">Time 3</div>
+        <div class="reminders-form__time-dropdown--item">Time 4</div>
+      </div>
     </div>
     <div class="reminders-form__submit-container  submit-container">
       <button class="button submit-changes-button">Submit</button>
     </div>
-  </div>
-`);
+  </div>`
+  // function ($remindersForm, rerender, obj) {
+  //   if (!obj.remindersDataLoaded) {
+  //     $.ajax({
+  //       method: 'GET',
+  //       url: '/users',
+  //       success: function (response) {
+  //         rerender({
+  //           remindersDataLoaded: true,
+  //           currentFrequency: response.user.frequency,
+  //           currentTime: response.user.password
+  //         });
+  //       }
+  //     });
+  //   }
+  //
+  //   $remindersForm.find('.reminders-form__current-frequency').hover(function () {
+  //     $remindersForm.find('.reminders-form__frequency-dropdown').css('display', 'flex');
+  //   }, function () {
+  //     $remindersForm.find('.reminders-form__frequency-dropdown').css('display', 'none');
+  //   });
+  //
+  //   $remindersForm.find('.reminders-form__current-time').hover(function () {
+  //     $remindersForm.find('.reminders-form__time-dropdown').css('display', 'flex');
+  //   }, function () {
+  //     $remindersForm.find('.reminders-form__time-dropdown').css('display', 'none');
+  //   });
+  //
+  //   // is there a way to not repeat myself so much here?
+  //   $remindersForm.find('.reminders-form__frequency-dropdown--item').on('click', function () {
+  //     $.ajax({
+  //       method: 'PUT',
+  //       url: '/users',
+  //       data: JSON.stringify( {
+  //         selectedFrequency: $(this).text()
+  //       } ),
+  //       contentType: 'application/json',
+  //       success: function (response) {
+  //         rerender({
+  //           remindersDataLoaded: true,
+  //           currentFrequency: response.user.frequency,
+  //           currentTime: response.user.time
+  //         });
+  //       }
+  //     });
+  //   });
+  //
+  //   $remindersForm.find('.reminders-time-dropdown--item').on('click', function () {
+  //     $.ajax({
+  //       method: 'PUT',
+  //       url: '/users',
+  //       data: JSON.stringify( {
+  //         selectedTime: $(this).text()
+  //       } ),
+  //       contentType: 'application/json',
+  //       success: function (response) {
+  //         rerender({
+  //           remindersDataLoaded: true,
+  //           currentFrequency: response.user.frequency,
+  //           currentTime: response.user.time
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
+);
 
 var LoginComponent = Spa.defineComponent(`
   <div class="login">
@@ -216,7 +338,7 @@ var LoginComponent = Spa.defineComponent(`
         </div>
         <div class="login__input-container new-user-data__container">
           <div class="login__input--text">And a phone number to receive texts...</div>
-          <textarea class="login__input new-user-phone-number" placeholder="XXX-XXX-XXXX"></textarea>
+          <textarea class="login__input new-user-phone-number" placeholder="XXXXXXXXXX"></textarea>
         </div>
         <div class="login__submit-container new-user-data__container">
           <button class="button create-user-button">Submit</button>
@@ -259,7 +381,7 @@ var LoginComponent = Spa.defineComponent(`
         password: $('.new-user-password').val(),
         phoneNumber: $('.new-user-phone-number').val()
       };
-
+      console.log('getting here');
       $.ajax({
         method: 'post',
         url: '/users',

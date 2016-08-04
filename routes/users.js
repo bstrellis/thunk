@@ -42,7 +42,35 @@ router.post('/', function (req, res, next) {
   });
 });
 
+router.put('/', function(req, res, next) {
+  models.Sessions.findOne({ cookieIDStr: req.cookies.cookieIDStr }, function (error, currentSessionDoc) {
+    models.Users.findOne({ _id: currentSessionDoc.userId }, function (error, currentUserDoc) {
+      var data = {};
+      if (req.body.password !== '') {
+        data.password = req.body.password;
+      }  else {
+        data.password = currentUserDoc.password;
+      }
+      if (req.body.email !== '') {
+        data.email = req.body.email;
+      } else {
+        data.email = currentUserDoc.email;
+      }
+      if (req.body.phoneNumber !== '') {
+        data.phoneNumber = req.body.phoneNumber;
+      } else {
+        data.phoneNumber = currentUserDoc.phoneNumber;
+      }
 
-
+      models.Users.findOneAndUpdate(
+        { _id: currentSessionDoc.userId },
+        data,
+        function (error, userDoc) {
+          res.json({ user: userDoc });
+        }
+      );
+    });
+  });
+});
 
 module.exports = router;

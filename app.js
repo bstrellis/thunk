@@ -14,7 +14,8 @@ var remindersRoutes = require('./routes/reminders');
 var thoughtsRoutes = require('./routes/thoughts');
 var usersRoutes = require('./routes/users');
 var sessionsRoutes = require('./routes/sessions');
-var imagesRoutes = require('./routes/images');
+var client = require('twilio')('AC96c96b8e15e82b2df817ec6db352ffdb', '7e8aa5532ab8c8a0ffe8267ddf8b4861');
+var models = require('./models');
 
 var app = express();
 
@@ -42,7 +43,6 @@ app.use('/reminders', remindersRoutes);
 app.use('/thoughts', thoughtsRoutes);
 app.use('/users', usersRoutes);
 app.use('/sessions', sessionsRoutes);
-app.use('/images', imagesRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -79,5 +79,36 @@ app.use(function(err, req, res, next) {
 
 app.get('/', function(req, res) {
 })
+
+// sms messaging
+setInterval(function(){
+  models.Users.find({}, function (error, userDocs) {
+    userDocs.forEach(function (userDoc, index, userDocs) {
+      models.Thoughts.find({ userId: userDoc._id }, function (error, thoughtDocs) {
+        var randomInt = Math.round(Math.random() * thoughtDocs.length);
+        console.log('thoughtDocs', thoughtDocs);
+        console.log('int', randomInt);
+        var thoughtDoc = thoughtDocs[randomInt];
+        var recipientPhoneNumber = '+1' + userDoc.phoneNumber;
+
+        // if user has no thoughts, prompt them to put some in
+        if (thoughtDoc === undefined) {
+          thoughtDoc = {};
+          thoughtDoc.content = 'Record a great thought soon!';
+        }
+
+          client.sendMessage({
+            to: recipientPhoneNumber, // Any number Twilio can deliver to
+            from: '+15039856951', // A number you bought from Twilio and can use for outbound communication
+            body: thoughtDoc.content // body of the SMS message
+          }, function(err, responseData) {
+            console.log('error', err);
+            if (!err) {
+            }
+          });
+      });
+    });
+  });
+}, 7700000);
 
 module.exports = app;
